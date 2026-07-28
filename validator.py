@@ -16,7 +16,7 @@ class Validator:
     
     @staticmethod
     def validate_website(website):
-        pattern = r"^[a-zA-Z0-9-]+\.[a-zA-z]{2,}$"
+        pattern = r"^(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$"
         return bool(re.fullmatch(pattern, website))
 
     @staticmethod

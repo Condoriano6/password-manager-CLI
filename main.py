@@ -7,9 +7,19 @@ from console import Console
 from credential import Credential
 from password_manager import PasswordManager
 from validator import Validator
+from crypto_utils import Key, CryptoUtils
 
 console = Console()
 manager = PasswordManager()
+
+key = Key.load_key()
+if key is None:
+    key = Key.generate_key()
+    Key.save_key(key)
+
+crypto = CryptoUtils(key)
+
+Credential.set_crypto(crypto)
 
 def get_user_choice(text):
     try:
@@ -137,6 +147,8 @@ def mainmenu():
                         break
                     while True:
                         new_username = input("Enter new username (leave blank to keep current): ")
+                        if new_username == "":
+                            break
                         if not Validator.has_no_spaces(new_username):
                             console.show_error("Username can't have space!")
                             continue
@@ -154,6 +166,8 @@ def mainmenu():
                         break
                     while True:
                         new_password = input("Enter new password (leave blank to keep current): ")
+                        if new_password == "":
+                            break
                         if not Validator.has_no_spaces(new_password):
                             console.show_error("Password can't have space!")
                             continue
